@@ -8,7 +8,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:20020624jjj@localh
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(app)
-#用户输入，录入数据库表单
+#用户输入，录入数据库表单.
 #创建表单，存放用户输入数据
 
 class CreateTable(db.Model):
