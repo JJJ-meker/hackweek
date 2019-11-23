@@ -1,14 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
-import pprint
+import  json
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:20020624jjj@localhost/activities?charset=utf8"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(app)
-#用户输入，录入数据库表单.
+#用户输入，录入数据库表单
 #创建表单，存放用户输入数据
 
 class CreateTable(db.Model):
@@ -23,9 +24,14 @@ db.create_all()
 
 #将获取内容输入到表单中
 def GetContent():
+    ID=''
+    A=''
+    N=''
+    P=''
+    T=''
     connect = pymysql.connect(host = 'localhost',user = 'root',password = '20020624jjj',db = 'activities',port = 3306,charset = 'utf8')
     cursor = connect.cursor()
-    sql = """INSERT INTO acs(id, act,name,place,data)VALUES( 2,'我要努力','vscode',PLACE = '机房','2019.11.23-2019.11.24')"""
+    sql = """INSERT INTO acs(id, act,name,place,data)VALUES( ID,A,N,P,T)"""
     cursor.execute(sql)
     connect.commit()
     try:
@@ -44,9 +50,11 @@ def ShowContent():
     cursor = connect.cursor()
     cursor.execute(find)
     result = cursor.fetchall()
-    pprint.pprint(result)
-
-    connect.close()
+    para = []
+    for i in result:
+        text={' ':i[0],'活动':i[1],'邀请人':i[2],'地点':i[3],'时间':i[4]}
+        para.append(text)
+    return json.dumps(para,ensure_ascii=False,indent=4)
 
 if __name__ =='__main__':
     app.run(debug=True)
