@@ -1,8 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import request
 import pymysql
-import pprint
+import requests
 import json
 
 
@@ -26,9 +25,9 @@ db.create_all()
 #从前端获取json数据，装换为字典
 #将获取内容输入到表单中
 
-@app.route('/',methods=['POST'])
+@app.route('/',methods=['GET'])
 def GetContent():
-    js = request.get.json()
+    js = requests.get.json()
     obj = json.loads(js)
     list = []
     for i in obj:
