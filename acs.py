@@ -1,8 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import request
 import pymysql
-import  pprint
-import  json
+import pprint
+import json
 
 
 app = Flask(__name__)
@@ -10,8 +11,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:20020624jjj@localh
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 
 db = SQLAlchemy(app)
-#用户输入，录入数据库表单.
-#创建表单，存放用户输入数据.
+#用户输入，录入数据库表单
+#创建表单，存放用户输入数据
 
 class CreateTable(db.Model):
     __tablename__='acs'
@@ -22,17 +23,24 @@ class CreateTable(db.Model):
     data = db.Column(db.String(64))
 
 db.create_all()
-
+#从前端获取json数据，装换为字典
 #将获取内容输入到表单中
 
-#从前端获取json数据，装换为字典
-
-@app.route('/',methods=['GET'])
+@app.route('/',methods=['POST'])
 def GetContent():
-
+    js = request.get.json()
+    obj = json.loads(js)
+    list = []
+    for i in obj:
+        list.append(obj[i])
+    ID = list[0]
+    ac = list[1]
+    na = list[2]
+    pl = list[3]
+    da = list[4]
     connect = pymysql.connect(host='localhost', user='root', password='20020624jjj', db='activities', port=3306,charset='utf8')
     cursor = connect.cursor()
-    sql = """INSERT INTO acs(id, act,name,place,data)VALUES(*,*,*,*,*)"""#*占位
+    sql = """INSERT INTO acs(id, act,name,place,data)VALUES(ID,ac,na,pl,da)"""
     cursor.execute(sql)
     connect.commit()
     try:
@@ -51,7 +59,6 @@ def ShowContent():
     cursor = connect.cursor()
     cursor.execute(find)
     result = cursor.fetchall()
-    pprint.pprint(result)
     para = []
     for i in result:
         text = {'id':i[0],'活动':i[1],'邀请人':i[2],'地点':i[3],'时间':i[4]}
