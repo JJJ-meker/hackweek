@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask import  request
 import pymysql
-import requests
 import json
 
 
@@ -25,18 +25,13 @@ db.create_all()
 #从前端获取json数据，装换为字典
 #将获取内容输入到表单中
 
-@app.route('/',methods=['GET'])
+@app.route('/',methods=['POST'])
 def GetContent():
-    js = requests.get.json()
-    obj = json.loads(js)
-    list = []
-    for i in obj:
-        list.append(obj[i])
-    ID = list[0]
-    ac = list[1]
-    na = list[2]
-    pl = list[3]
-    da = list[4]
+    ID = json.loads(request.form.get('id'))
+    ac = json.loads(request.form.get('act'))
+    na = json.loads(request.form.get('name'))
+    pl = json.loads(request.form.get('place'))
+    da = json.loads(request.form.get('data'))
     connect = pymysql.connect(host='localhost', user='root', password='20020624jjj', db='activities', port=3306,charset='utf8')
     cursor = connect.cursor()
     sql = """INSERT INTO acs(id, act,name,place,data)VALUES(ID,ac,na,pl,da)"""
