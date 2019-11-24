@@ -56,7 +56,7 @@ def getdata():
     })
 
 
-# 用户注册
+# 注册
 @app.route('/users/signup', methods=["POST"])
 def signup():
     data = {
