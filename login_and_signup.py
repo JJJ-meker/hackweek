@@ -85,7 +85,7 @@ def logout():
     })
 
 
-"""用户资料
+"""
 @app.route('/user/<username>')
 def user(username):
     users = username.query.filter_by(username=username).first()
