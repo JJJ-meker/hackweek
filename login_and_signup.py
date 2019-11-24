@@ -1,4 +1,4 @@
-# charset=utf8
+# -*- coding:utf-8 -*-
 from flask import Flask, request, jsonify
 from flask_login import logout_user
 from flask_sqlalchemy import SQLAlchemy
