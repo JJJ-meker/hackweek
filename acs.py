@@ -27,12 +27,12 @@ db.create_all()
 
 #从前端获取json数据，装换为字典
 
-@app.route('/index',methods=['GET'])
+@app.route('/',methods=['GET'])
 def GetContent():
 
     connect = pymysql.connect(host='localhost', user='root', password='20020624jjj', db='activities', port=3306,charset='utf8')
     cursor = connect.cursor()
-    sql = """INSERT INTO acs(id, act,name,place,data)VALUES(*,*,*,*)"""#*占位
+    sql = """INSERT INTO acs(id, act,name,place,data)VALUES(*,*,*,*,*)"""#*占位
     cursor.execute(sql)
     connect.commit()
     try:
@@ -44,7 +44,7 @@ def GetContent():
 
 
 #从表单中得到数据并展示
-@app.route('/index',methods=['GET'])
+@app.route('/',methods=['POST'])
 def ShowContent():
     connect = pymysql.connect(host='localhost', user='root', password='20020624jjj', db='activities', port=3306,charset='utf8')
     find = """SELECT *FROM acs"""
@@ -52,9 +52,12 @@ def ShowContent():
     cursor.execute(find)
     result = cursor.fetchall()
     pprint.pprint(result)
+    para = []
+    for i in result:
+        text = {'id':i[0],'活动':i[1],'邀请人':i[2],'地点':i[3],'时间':i[4]}
+        para.append(text)
+        return json.dumps(para, ensure_ascii=False, indent=4)
 
-ShowContent()
-"""
+
 if __name__ =='__main__':
     app.run(debug=True)
-"""
