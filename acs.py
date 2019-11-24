@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
+import  pprint
 import  json
 
 
@@ -23,15 +24,15 @@ class CreateTable(db.Model):
 db.create_all()
 
 #将获取内容输入到表单中
+
+#从前端获取json数据，装换为字典
+
+@app.route('/index',methods=['GET'])
 def GetContent():
-    ID=''
-    A=''
-    N=''
-    P=''
-    T=''
-    connect = pymysql.connect(host = 'localhost',user = 'root',password = '20020624jjj',db = 'activities',port = 3306,charset = 'utf8')
+
+    connect = pymysql.connect(host='localhost', user='root', password='20020624jjj', db='activities', port=3306,charset='utf8')
     cursor = connect.cursor()
-    sql = """INSERT INTO acs(id, act,name,place,data)VALUES( ID,A,N,P,T)"""
+    sql = """INSERT INTO acs(id, act,name,place,data)VALUES(*,*,*,*)"""#*占位
     cursor.execute(sql)
     connect.commit()
     try:
@@ -39,22 +40,21 @@ def GetContent():
         connect.close()
     except:
         db.rollback()
-
     db.close()
 
 
 #从表单中得到数据并展示
+@app.route('/index',methods=['GET'])
 def ShowContent():
-    connect = pymysql.connect("mysql+pymysql://root:20020624jjj@localhost/activities?charset=utf8")
+    connect = pymysql.connect(host='localhost', user='root', password='20020624jjj', db='activities', port=3306,charset='utf8')
     find = """SELECT *FROM acs"""
     cursor = connect.cursor()
     cursor.execute(find)
     result = cursor.fetchall()
-    para = []
-    for i in result:
-        text={' ':i[0],'活动':i[1],'邀请人':i[2],'地点':i[3],'时间':i[4]}
-        para.append(text)
-    return json.dumps(para,ensure_ascii=False,indent=4)
+    pprint.pprint(result)
 
+ShowContent()
+"""
 if __name__ =='__main__':
     app.run(debug=True)
+"""
