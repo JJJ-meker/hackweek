@@ -84,17 +84,7 @@ def logout():
     })
 
 
-"""用户资料
-@app.route('/user/<username>')
-def user(username):
-    users = username.query.filter_by(username=username).first()
-    if users is None:
-        pass
-    else:
-        pass"""
-
-
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0")
+    app.run()
