@@ -2,11 +2,11 @@
 from flask import Flask, request, jsonify
 from flask_login import logout_user
 from flask_sqlalchemy import SQLAlchemy
-import pymysql
+import PyMySQL
 pymysql.install_as_MySQLdb()
 # 初始化
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root：ZHBzhb123123@112.124.26.56:3306/User"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root：ZHBzhb123123@112.124.26.56:3306/root"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 db = SQLAlchemy(app)
 
@@ -70,8 +70,7 @@ def signup():
     db.session.commit()
     return jsonify({
         "status": 1,
-        "message": "操作成功",
-        "data": ""
+        "message": "操作成功"
     })
 
 
